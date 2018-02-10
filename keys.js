@@ -8,3 +8,9 @@ exports.twitterKeys = {
   }
   
   exports.tmdbKey = '8d5f41f6535c312ee8ea248cecd733f7';
+
+  exports.spotifyKeys = {
+    client_id: 'bbc1686358fb41bb973c9b052415e82a',
+    client_secret: '843496cdfcdf427a80be636e18dd3698',
+
+  }

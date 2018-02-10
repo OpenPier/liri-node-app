@@ -2,18 +2,18 @@
 
 //Loading modules
 var Twitter = require('twitter');
-var spotify = require('spotify');
+var Spotify = require('node-spotify-api');
 var request = require('request');
 var fs = require('fs');
 var keys = require("./keys.js");
 var tweetsArray = [];
 var inputCommand = process.argv[2];
-var commandParam = process.argv[3];
+var query = process.argv[3];
 var defaultMovie = "Ex Machina";
 var defaultSong = "Radioactive";
 
 
-
+var spotifyKeys = keys.spotifyKeys;
 var twitterKeys = keys.twitterKeys;
 var tmdbKey = keys.tmdbKey;
 
@@ -29,30 +29,37 @@ var client = new Twitter({
 //-----------------------FUNCTIONS-----------------------------------------------
 
 //This function processes the input commands
-function processCommands(command, commandParam){
+function processCommands(command, query){
 
 	//console.log(commandParam);
-
+	console.log(command);
+	console.log(query);
 	switch(command){
-
+		
 	case 'my-tweets':
-		getMyTweets(); break;
+		getMyTweets(); 
+		break;
+
 	case 'spotify-this-song':
 		//If user has not specified a song , use default
-		if(commandParam === undefined){
-			commandParam = defaultSong;
+		if(query === undefined){
+			query = defaultSong;
 		}     
-		spotifyThis(commandParam); break;
+		spotifyThis(query); 
+		break;
 	case 'movie-this':
 		//If user has not specified a movie Name , use default
-		if(commandParam === undefined){
-			commandParam = defaultMovie;
+		if(query === undefined){
+			query = defaultMovie;
 		}    
-		movieThis(commandParam); break;
+		movieThis(query); 
+		break;
 	case 'do-what-it-says':
-		doWhatItSays(); break;
+		doWhatItSays(); 
+		break;
 	default: 
 		console.log("Invalid command. Please type any of the following commnds: my-tweets spotify-this-song movie-this or do-what-it-says");
+		break;
 }
 
 
@@ -60,7 +67,7 @@ function processCommands(command, commandParam){
 
 function getMyTweets(){
 
-	var params = {screen_name: 'jincygeorge8388', count: 20, exclude_replies:true, trim_user:true};
+	var params = {screen_name: 'insert screen name', count: 20, exclude_replies:true, trim_user:true};
 		client.get('statuses/user_timeline', params, function(error, tweets, response) {
 				if (!error) {
 					//console.log(tweets);
@@ -85,6 +92,10 @@ function spotifyThis(song){
 	if(song === ""){
 		song = "Radioactive";
 	}
+	var spotify = new Spotify({
+		id: spotifyKeys.client_id,
+		secret: spotifyKeys.client_secret
+	});
 
 	spotify.search({ type: 'track', query: song}, function(err, data) {
     if (err) {
@@ -184,4 +195,4 @@ function doWhatItSays(){
 
 //-------------------------MAIN PROCESS-------------------------------------------
 
-processCommands(inputCommand, commandParam);
+processCommands(inputCommand, query);
