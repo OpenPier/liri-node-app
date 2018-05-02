@@ -146,7 +146,14 @@ var doWhatItSays = function() {
 };
 
 //Function for determining which command is executed
-var pick = inputCommand; 
+//switch(option) {
+	//case "do-what-it-says":
+	//code in here
+	//break;
+	
+	//}
+	
+	var pick = inputCommand; 
 	switch (pick) {
 		case "my-tweets":
 			getMyTweets();
